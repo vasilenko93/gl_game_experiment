@@ -2,7 +2,9 @@
 #include <GLFW/glfw3.h>
 #include <stdio.h>
 
-#define PROJECT_NAME "Fresh GL"
+#include "shaders.h"
+
+#define PROJECT_NAME "OpenGL Game Experiment"
 #define WINDOW_WIDTH 640
 #define WINDOW_HEIGHT 480
 
@@ -15,9 +17,9 @@ GLFWwindow* init_glfw( void )
 	}
 
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-  glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-  glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-  glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+	glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 
 	window = glfwCreateWindow ( WINDOW_WIDTH, WINDOW_HEIGHT, PROJECT_NAME, NULL, NULL );
 	if (!window) {
@@ -64,36 +66,16 @@ int main( int argc, char** argv )
 	glVertexAttribPointer (0, 3, GL_FLOAT, GL_FALSE, 0, NULL);
 
 
-	const char* vertex_shader =
-		"#version 400\n"
-		"in vec3 vp;"
-		"void main () {"
-		"  gl_Position = vec4 (vp, 1.0);"
-		"}";
+	GLuint shader_program = createProgram( "./shaders/simple.vert", "./shaders/simple.frag" );
+	if( shader_program == 0 ) //Program did not load correctly
+		return -1;
 
-	const char* fragment_shader =
-		"#version 400\n"
-		"out vec4 frag_colour;"
-		"void main () {"
-		"  frag_colour = vec4 (0.5, 0.0, 0.5, 1.0);"
-		"}";
 
-	GLuint vs = glCreateShader (GL_VERTEX_SHADER);
-	glShaderSource (vs, 1, &vertex_shader, NULL);
-	glCompileShader (vs);
-	GLuint fs = glCreateShader (GL_FRAGMENT_SHADER);
-	glShaderSource (fs, 1, &fragment_shader, NULL);
-	glCompileShader (fs);
-
-	GLuint shader_programme = glCreateProgram ();
-	glAttachShader (shader_programme, fs);
-	glAttachShader (shader_programme, vs);
-	glLinkProgram (shader_programme);
 	while ( !glfwWindowShouldClose(window) )
 	{
 	  // wipe the drawing surface clear
 	  glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	  glUseProgram (shader_programme);
+	  glUseProgram (shader_program);
 	  glBindVertexArray (vao);
 	  // draw points 0-3 from the currently bound VAO with current in-use shader
 	  glDrawArrays (GL_TRIANGLES, 0, 3);

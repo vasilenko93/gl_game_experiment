@@ -7,6 +7,6 @@ GLuint openVertexShader( char* pathname );
 GLuint openFragmentShader( char* pathname );
 char* readFile( char* pathname );
 
-GLuint createProgramme( char* vertexPath, char* fragmentPath );
+GLuint createProgram( char* vertexPath, char* fragmentPath );
 
 #endif

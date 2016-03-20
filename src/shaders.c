@@ -28,9 +28,9 @@ GLuint openFragmentShader( char* pathname )
     if( !source )
         return 0;
 
+    fragment_shader = glCreateShader( GL_FRAGMENT_SHADER );
     glShaderSource( fragment_shader, 1, &source, NULL );
     glCompileShader( fragment_shader );
-    fragment_shader = glCreateShader( GL_FRAGMENT_SHADER );
 
     free( (GLchar*) source );
 
@@ -60,18 +60,11 @@ char* readFile( char* pathname )
     text[filesize] = '\0';
 
     fclose( fd );
-
-    if( read != filesize )
-    {
-        free( text );
-        return NULL;
-    }
-
     return text;
 }
 
 
-GLuint createProgramme( char* vertexPath, char* fragmentPath )
+GLuint createProgram( char* vertexPath, char* fragmentPath )
 {
     GLuint program;
     GLuint vertex_shader = openVertexShader(vertexPath);
