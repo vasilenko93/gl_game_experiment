@@ -1,6 +1,8 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 
 #include "shaders.h"
 
@@ -48,9 +50,9 @@ int main( int argc, char** argv )
 
 
 	float points[] = {
-   0.0f,  0.5f,  0.0f,
-   0.5f, -0.5f,  0.0f,
-  -0.5f, -0.5f,  0.0f
+   0.0f,  1.0f,  0.0f,
+   1.0f, -1.0f,  0.0f,
+  -1.0f, -1.0f,  0.0f
 	};
 
 	GLuint vbo = 0;
@@ -71,17 +73,22 @@ int main( int argc, char** argv )
 		return -1;
 
 
+	srand(time(NULL));
 	while ( !glfwWindowShouldClose(window) )
 	{
 	  // wipe the drawing surface clear
 	  glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	  glUseProgram (shader_program);
+
+      float color = (float)rand()/(float)RAND_MAX;
+      float color2 = (float)rand()/(float)RAND_MAX;
+      float color3 = (float)rand()/(float)RAND_MAX;
+      GLint vertexColorLocation = glGetUniformLocation(shader_program, "inColor");
+      glUniform4f(vertexColorLocation, color, color2, color3, 1.0f);
+
 	  glBindVertexArray (vao);
-	  // draw points 0-3 from the currently bound VAO with current in-use shader
 	  glDrawArrays (GL_TRIANGLES, 0, 3);
-	  // update other events like input handling
 	  glfwPollEvents ();
-	  // put the stuff we've been drawing onto the display
 	  glfwSwapBuffers (window);
 	}
 
