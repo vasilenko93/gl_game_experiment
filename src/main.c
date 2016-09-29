@@ -8,6 +8,7 @@
 #define WINDOW_WIDTH 640
 #define WINDOW_HEIGHT 480
 
+
 GLFWwindow* init_glfw( void )
 {
 	GLFWwindow* window = NULL;
@@ -46,7 +47,6 @@ int main( int argc, char** argv )
 	GLFWwindow* window = init_glfw( );
 
 
-	// BEGIN TEST
 	float points[] = {
    0.0f,  0.5f,  0.0f,
    0.5f, -0.5f,  0.0f,

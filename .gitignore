@@ -1,8 +1,10 @@
 CMakeCache.txt
 CMakeFiles
 Makefile
-cmake_install.cmake
-deps
 gl_game_experiment
+
+*.cmake
+deps/glfw/examples/particles
+deps/glfw/tests
 
 
